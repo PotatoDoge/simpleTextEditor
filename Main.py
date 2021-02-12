@@ -3,11 +3,15 @@ from tkinter import filedialog, colorchooser, font
 from tkinter.messagebox import *
 from tkinter.filedialog import *
 
+#Changes font's color
 def change_color():
-    pass
+    print("CHANGE COLOR BUTTON PRESSED")
+    color = colorchooser.askcolor(title = "Pick a color")
+    text_area.config(fg = color[1])
 
 def change_font(*args):
-    pass
+    text_area.config(font = (font_name.get(),size_box.get()))
+
 
 def new_file():
     pass
@@ -28,10 +32,10 @@ def paste():
     pass
 
 def about():
-    pass
+    showinfo("About this program","This program written by github:@PotatoDoge in python with tkinter module")
 
 def quit():
-    pass
+    window.destroy()
 
 window = Tk()
 window.title("Text Editor")
@@ -59,4 +63,39 @@ scroll_bar = Scrollbar(text_area)
 window.grid_rowconfigure(0,weight=1)
 window.grid_columnconfigure(0,weight=1)
 text_area.grid(sticky = N + E + S + W)
+
+frame = Frame(window)
+frame.grid()
+color_button = Button(frame,text="color",command=change_color)
+color_button.grid(row = 0,column = 0)
+
+font_box = OptionMenu(frame,font_name, *font.families(), command = change_font)
+font_box.grid(row = 0, column = 1)
+
+size_box = Spinbox(frame,from_=1, to=100, textvariable = font_size, command=change_font)
+size_box.grid(row = 0, column = 2)
+
+menu_bar = Menu(window)
+window.config(menu = menu_bar)
+
+file_menu = Menu(menu_bar, tearoff = 0)
+menu_bar.add_cascade(label="File", menu=file_menu)
+file_menu.add_command(label="New", command=new_file)
+file_menu.add_command(label="Open", command = open_file)
+file_menu.add_command(label="Save", command = save_file)
+file_menu.add_command(label="Exit", command = quit)
+
+edit_menu = Menu(menu_bar, tearoff = 0)
+menu_bar.add_cascade(label = "Edit", menu = edit_menu)
+edit_menu.add_command(label = "Cut", command = cut)
+edit_menu.add_command(label = "Copy", command = copy)
+edit_menu.add_command(label = "Paste", command = paste)
+
+help_menu = Menu(menu_bar, tearoff = 0)
+menu_bar.add_cascade(label = "Help", menu = help_menu)
+help_menu.add_command(label = "About", command = about)
+
+scroll_bar.pack(side = RIGHT, fill = Y)
+text_area.config(yscrollcommand = scroll_bar.set)
+
 window.mainloop()
