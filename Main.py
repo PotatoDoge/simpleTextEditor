@@ -24,13 +24,25 @@ def open_file():
         text_area.delete(1.0,END)
         file = open(file,"r")
         text_area.insert(1.0,file.read())
+
     except Exception:
         print("could not read file")
     finally:
         file.close()
 
 def save_file():
-    pass
+    file = filedialog.asksaveasfilename(initialfile = 'untitled.txt', defaultextension = ".txt", filetypes=[("All Files","*.*"),("Text Documents","*.txt")])
+    if file is None:
+        return
+    else:
+        try:
+            window.title(os.path.basename(file))
+            file = open(file,"w")
+            file.write(text_area.get(1.0,END))
+        except Exception:
+            print("could not save file")
+        finally:
+            file.close()
 
 def cut():
     text_area.event_generate("<<Cut>>")
