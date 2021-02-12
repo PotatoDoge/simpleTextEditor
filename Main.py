@@ -14,22 +14,33 @@ def change_font(*args):
 
 
 def new_file():
-    pass
+    window.title("Untitled")
+    text_area.delete(1.0,END)
 
 def open_file():
-    pass
+    file = askopenfilename(defaultextension=".txt" , filetypes=[("All Files","*.*"),("Text Documents","*.txt")])
+    try:
+        window.title(os.path.basename(file))
+        text_area.delete(1.0,END)
+        file = open(file,"r")
+        text_area.insert(1.0,file.read())
+    except Exception:
+        print("could not read file")
+    finally:
+        file.close()
 
 def save_file():
     pass
 
 def cut():
-    pass
+    text_area.event_generate("<<Cut>>")
 
 def copy():
-    pass
+    text_area.event_generate("<<Copy>>")
+
 
 def paste():
-    pass
+    text_area.event_generate("<<Paste>>")
 
 def about():
     showinfo("About this program","This program written by github:@PotatoDoge in python with tkinter module")
